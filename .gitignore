@@ -1,0 +1,26 @@
+# environments
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+
+# data and outputs (MIT Supercloud data are CC BY-NC-ND 4.0: never commit raw or processed data)
+data/
+results/
+logs/
+
+# local tooling
+.claude/
+
+# LaTeX build files (references.bib is generated from main.tex)
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.log
+paper/*.out
+paper/*.fls
+paper/*.fdb_latexmk
+paper/*.synctex.gz
+paper/references.bib
+paper/main.pdf

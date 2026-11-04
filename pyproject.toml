@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aidc-gridbench"
+version = "0.1.0"
+description = "Grid-oriented probabilistic load forecasting benchmark for AI data centers"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+dependencies = [
+  "numpy", "pandas", "pyarrow", "scipy", "scikit-learn",
+  "lightgbm", "pyyaml", "requests", "tqdm", "matplotlib",
+]
+
+[project.optional-dependencies]
+deep = ["torch"]
+dev = ["pytest"]
+
+[tool.setuptools.packages.find]
+include = ["aidc_gridbench*"]
