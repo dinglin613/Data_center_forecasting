@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from aidc_gridbench.data.mit_supercloud import local_to_utc_epoch, reduce_gpu_file, scheduler_features
+from dcgridbench.data.mit_supercloud import local_to_utc_epoch, reduce_gpu_file, scheduler_features
 
 
 def test_dst_offset():

@@ -1,5 +1,5 @@
 import numpy as np
-from aidc_gridbench.metrics.scores import (
+from dcgridbench.metrics.scores import (
     coverage, crps_from_quantiles, energy_score, grid_stats, pinball, scenario_stat_pit, variogram_score,
 )
 

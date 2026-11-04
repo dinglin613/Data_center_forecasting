@@ -1,5 +1,5 @@
 import numpy as np
-from aidc_gridbench.models.conformal import calibrate_online, calibrate_static
+from dcgridbench.models.conformal import calibrate_online, calibrate_static
 
 taus = np.array([0.05, 0.5, 0.95])
 

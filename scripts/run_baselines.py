@@ -10,9 +10,9 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from aidc_gridbench.data.windows import TASKS, origins, resample, target_windows
-from aidc_gridbench.metrics import scores as S
-from aidc_gridbench.models.baselines import MODELS
+from dcgridbench.data.windows import TASKS, origins, resample, target_windows
+from dcgridbench.metrics import scores as S
+from dcgridbench.models.baselines import MODELS
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--series", default="data/processed/mit_cluster_1min.parquet")

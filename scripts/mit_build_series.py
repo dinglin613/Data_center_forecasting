@@ -1,6 +1,6 @@
 """Build the cluster GPU power series and a data-quality report.
 
-    python scripts/mit_build_series.py --agg $SCRATCH/aidc_gridbench/mit_gpu_1min
+    python scripts/mit_build_series.py --agg $SCRATCH/dcgridbench/mit_gpu_1min
 Outputs (small, kept in the repo's gitignored data/ folder):
     data/processed/mit_cluster_1min.parquet
     results/eda/mit_overview.png, results/eda/mit_quality.json
@@ -14,7 +14,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from aidc_gridbench.data.mit_supercloud import build_cluster_series
+from dcgridbench.data.mit_supercloud import build_cluster_series
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--agg", required=True)

@@ -1,4 +1,4 @@
-# aidc-gridbench
+# DCGridBench
 
 Benchmark and reference code for **grid-oriented probabilistic load forecasting of AI data centers**,
 accompanying the paper *Grid-Oriented Probabilistic Load Forecasting for AI Data Centers*.
@@ -41,7 +41,7 @@ pytest -q                        # unit tests
 | `mit-1h-24h` | 1 h | 24 h (24 steps) | same | same | same |
 
 A forecast origin belongs to a split only if its whole target window lies inside that split.
-Task definitions are in `aidc_gridbench/data/windows.py`.
+Task definitions are in `dcgridbench/data/windows.py`.
 
 ## Reproducing the results
 
@@ -60,7 +60,7 @@ sbatch -A <account> scripts/slurm/mit_aggregate.sbatch
 #   local alternative: python scripts/mit_aggregate.py --folders 0 1 2 ... --out data/interim/mit_gpu_1min
 
 # 3. cluster GPU power series + data-quality report
-python scripts/mit_build_series.py --agg $SCRATCH/aidc_gridbench/mit_gpu_1min
+python scripts/mit_build_series.py --agg $SCRATCH/dcgridbench/mit_gpu_1min
 
 # 4. forecasting, calibration, scenarios and reserve
 sbatch -A <account> scripts/slurm/cpu_pipeline.sbatch     # persistence, LightGBM
@@ -73,14 +73,14 @@ python paper/make_tables.py      # writes the table bodies into paper/main.tex
 
 Notes:
 - Idle power of GPUs not assigned to any job is not in the telemetry; the series adds an assumed
-  40 W per idle GPU (`IDLE_GPU_W` in `aidc_gridbench/data/mit_supercloud.py`).
+  40 W per idle GPU (`IDLE_GPU_W` in `dcgridbench/data/mit_supercloud.py`).
 - GPU telemetry timestamps are US Eastern wall-clock time; the pipeline converts them to UTC to
   match the scheduler log.
 
 ## Repository layout
 
 ```
-aidc_gridbench/
+dcgridbench/
   data/         MIT Supercloud pipeline, task definitions and splits
   models/       baselines, quantile TCN, conformal calibrators, workload regimes
   scenarios/    scenario generators
@@ -94,20 +94,8 @@ paper/          LaTeX source, figure and table scripts
 ## Adding a method
 
 A forecaster implements `fit(df, train_idx, task)` and `predict(df, idx, task) -> (n, H, K)`
-quantiles at `task.taus`. Register it in `aidc_gridbench/models/baselines.py::MODELS` and run
+quantiles at `task.taus`. Register it in `dcgridbench/models/baselines.py::MODELS` and run
 `scripts/run_calibration.py --models <name>` and `scripts/run_scenarios.py --model <name>`.
-
-## Citation
-
-```bibtex
-@inproceedings{lin2027gridoriented,
-  author    = {Lin, Ding},
-  title     = {Grid-Oriented Probabilistic Load Forecasting for {AI} Data Centers},
-  booktitle = {Proc. IEEE PES General Meeting},
-  year      = {2027},
-  note      = {under review}
-}
-```
 
 ## License
 

@@ -9,6 +9,6 @@
 # Intermediate per-minute job power goes to $SCRATCH (~1.2 GB, regenerable).
 # Folders that already have a parquet are skipped, so the array can be resubmitted.
 cd "$SLURM_SUBMIT_DIR"
-OUT=${AIDC_INTERIM:-$SCRATCH/aidc_gridbench/mit_gpu_1min}
+OUT=${AIDC_INTERIM:-$SCRATCH/dcgridbench/mit_gpu_1min}
 mkdir -p "$OUT"
 .venv/bin/python scripts/mit_aggregate.py --array-index "$SLURM_ARRAY_TASK_ID" --workers 12 --out "$OUT"

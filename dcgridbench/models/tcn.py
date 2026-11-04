@@ -8,7 +8,7 @@ import numpy as np
 import torch
 from torch import nn
 
-from aidc_gridbench.models.baselines import make_features
+from dcgridbench.models.baselines import make_features
 
 
 class _Block(nn.Module):

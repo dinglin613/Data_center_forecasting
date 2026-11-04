@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
-from aidc_gridbench.data.windows import Task, origins, target_windows
-from aidc_gridbench.models.baselines import Persistence, QuantileLGBM, SeasonalNaive
-from aidc_gridbench.metrics.scores import coverage
+from dcgridbench.data.windows import Task, origins, target_windows
+from dcgridbench.models.baselines import Persistence, QuantileLGBM, SeasonalNaive
+from dcgridbench.metrics.scores import coverage
 
 idx = pd.date_range("2021-03-01", "2021-03-20", freq="1h", tz="UTC", inclusive="left")
 rng = np.random.default_rng(0)

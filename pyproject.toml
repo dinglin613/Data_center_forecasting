@@ -3,7 +3,7 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "aidc-gridbench"
+name = "dcgridbench"
 version = "0.1.0"
 description = "Grid-oriented probabilistic load forecasting benchmark for AI data centers"
 requires-python = ">=3.10"
@@ -18,4 +18,4 @@ deep = ["torch"]
 dev = ["pytest"]
 
 [tool.setuptools.packages.find]
-include = ["aidc_gridbench*"]
+include = ["dcgridbench*"]

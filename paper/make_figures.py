@@ -12,8 +12,8 @@ import numpy as np
 import pandas as pd
 from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
 
-from aidc_gridbench.data.windows import TASKS
-from aidc_gridbench.scenarios.generate import sample
+from dcgridbench.data.windows import TASKS
+from dcgridbench.scenarios.generate import sample
 
 OUT = Path("paper/figures"); OUT.mkdir(parents=True, exist_ok=True)
 BLUE, ORANGE, AQUA, GRAY, INK, MUTED = "#2a78d6", "#eb6834", "#1baf7a", "#8a8984", "#0b0b0b", "#52514e"

@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.stats import norm
-from aidc_gridbench.decisions.reserve import block_from_scenarios, per_step_from_quantiles
-from aidc_gridbench.scenarios.generate import fit_copula, pit, sample
+from dcgridbench.decisions.reserve import block_from_scenarios, per_step_from_quantiles
+from dcgridbench.scenarios.generate import fit_copula, pit, sample
 
 taus = np.array([0.025, 0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95, 0.975])
 rng = np.random.default_rng(0)

@@ -8,7 +8,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-from aidc_gridbench.data.windows import LOCAL_TZ, Task, target_windows
+from dcgridbench.data.windows import LOCAL_TZ, Task, target_windows
 
 
 class EmpiricalResidualModel:

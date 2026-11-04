@@ -12,11 +12,11 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from aidc_gridbench.data.windows import TASKS, origins, resample, target_windows
-from aidc_gridbench.metrics import scores as S
-from aidc_gridbench.models.baselines import MODELS
-from aidc_gridbench.models.conformal import calibrate_online, calibrate_static
-from aidc_gridbench.models.regimes import Regimes
+from dcgridbench.data.windows import TASKS, origins, resample, target_windows
+from dcgridbench.metrics import scores as S
+from dcgridbench.models.baselines import MODELS
+from dcgridbench.models.conformal import calibrate_online, calibrate_static
+from dcgridbench.models.regimes import Regimes
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--series", default="data/processed/mit_cluster_1min.parquet")
@@ -59,7 +59,7 @@ for tname in a.tasks:
     res = {"regime_share_test": {int(g): float(np.mean(reg_te == g)) for g in np.unique(reg_te)}}
     for mname in a.models:
         if mname == "qtcn":  # torch is optional; import only when asked
-            from aidc_gridbench.models.tcn import QuantileTCN
+            from dcgridbench.models.tcn import QuantileTCN
             m = QuantileTCN(seed=a.seed).fit(df, tr, task, val_idx=va)
             print(f"{tname} qtcn best val pinball (scaled) {m.best_val:.4f}", flush=True)
         else:

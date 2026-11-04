@@ -9,10 +9,10 @@ from pathlib import Path
 
 import numpy as np
 
-from aidc_gridbench.data.windows import TASKS
-from aidc_gridbench.decisions.reserve import block_from_scenarios, per_step_from_quantiles
-from aidc_gridbench.metrics import scores as S
-from aidc_gridbench.scenarios.generate import fit_copula, sample
+from dcgridbench.data.windows import TASKS
+from dcgridbench.decisions.reserve import block_from_scenarios, per_step_from_quantiles
+from dcgridbench.metrics import scores as S
+from dcgridbench.scenarios.generate import fit_copula, sample
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--task", default="mit-5min-1h")

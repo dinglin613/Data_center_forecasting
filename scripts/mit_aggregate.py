@@ -4,7 +4,7 @@
 """
 import argparse
 from pathlib import Path
-from aidc_gridbench.data.mit_supercloud import aggregate_folder
+from dcgridbench.data.mit_supercloud import aggregate_folder
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--folders", type=int, nargs="*")
