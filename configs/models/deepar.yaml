@@ -1,0 +1,21 @@
+display_name: DeepAR
+family: rnn
+adapter: gluonts_deepar
+reference: "Salinas et al., DeepAR: Probabilistic forecasting with autoregressive recurrent networks, IJF 2020."
+# GluonTS implementation: ancestral sampling of whole paths (native samples).
+params:
+  context_hours: 168
+  lags_hours: [1, 2, 3, 4, 5, 6, 12, 23, 24, 25, 48, 72, 167, 168, 169]
+  num_layers: 2
+  hidden_size: 40
+  dropout_rate: 0.1
+  lr: 0.001
+  batch_size: 64
+  num_batches_per_epoch: 50
+  max_epochs: 100
+  early_stop_patience: 10
+  distribution: studentt
+  num_samples: 200           # paths per origin; quantiles are taken from them
+task_params:
+  mit-5min-1h: {context_hours: 24, lags_hours: [0.0833, 0.1667, 0.25, 0.5, 1, 2, 3, 6, 12, 24]}
+  mit-15min-4h: {context_hours: 72, lags_hours: [0.25, 0.5, 0.75, 1, 2, 4, 6, 12, 24, 48, 168]}

@@ -1,0 +1,5 @@
+display_name: Quantile TCN
+family: cnn
+adapter: builtin
+reference: "DCGridBench reference model (dcgridbench/models/tcn.py)."
+params: {cls: qtcn, lookback_hours: 24, epochs: 40, batch: 512, lr: 0.001, patience: 6}

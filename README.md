@@ -82,10 +82,14 @@ Notes:
 ```
 dcgridbench/
   data/         MIT Supercloud pipeline, task definitions and splits
-  models/       baselines, quantile TCN, conformal calibrators, workload regimes
+  models/       baselines, quantile TCN, conformal calibrators, workload regimes,
+                registry.py (YAML configs) and external/ (library adapters)
+  leaderboard/  standard result records
   scenarios/    scenario generators
   metrics/      probabilistic, multivariate and grid-statistic scores
   decisions/    reserve sizing and realised cost
+configs/models/ model configs
+docs/           result schema
 scripts/        command-line entry points and Slurm jobs
 tests/          unit tests
 paper/          LaTeX source, figure and table scripts
@@ -96,6 +100,37 @@ paper/          LaTeX source, figure and table scripts
 A forecaster implements `fit(df, train_idx, task)` and `predict(df, idx, task) -> (n, H, K)`
 quantiles at `task.taus`. Register it in `dcgridbench/models/baselines.py::MODELS` and run
 `scripts/run_calibration.py --models <name>` and `scripts/run_scenarios.py --model <name>`.
+
+## External models and standard results
+
+State-of-the-art models from external libraries run through adapters in
+`dcgridbench/models/external/` and are declared by YAML files in `configs/models/`
+(adding a model needs only a config). Every adapter returns `(n, H, K)` quantiles at
+`task.taus`; DeepAR (GluonTS) also returns native sample paths.
+
+| Config | Model | Library |
+|---|---|---|
+| `nhits` | N-HiTS | neuralforecast 3.1.9 |
+| `tft`, `patchtst` | TFT, PatchTST | neuralforecast 3.1.9 |
+| `deepar` | DeepAR (ancestral sampling) | gluonts 0.16.2 |
+| `chronos_bolt_base` | Chronos-Bolt base, zero-shot | chronos-forecasting 2.3.2 |
+| `persistence`, `seasonal_naive`, `qtcn` | built-in baselines | dcgridbench |
+
+Leakage rules: training uses train origins only, early stopping and checkpoint selection
+use validation only, and the input for an origin holds rows up to that origin only.
+Scheduler features are past-only inputs where a model supports them; no future covariates.
+
+```bash
+# environment on scratch (built inside a job; pins torch to the cluster module)
+sbatch -A <account> scripts/slurm/build_env.sbatch
+# one model, task and seed -> results/benchmark/<task>/<model>/seed<k>.json
+sbatch -A <account> --export=ALL,MODEL=nhits,TASK=mit-1h-24h,SEED=0 scripts/slurm/run_benchmark.sbatch
+# unit tests on a compute node
+sbatch -A <account> scripts/slurm/tests.sbatch
+```
+
+The result JSON format is defined in `docs/result_schema.md`; raw predictions are saved
+next to it as `.npz` (results/ is not versioned) in the layout read by `scripts/run_scenarios.py`.
 
 ## License
 

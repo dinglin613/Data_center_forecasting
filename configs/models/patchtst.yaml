@@ -1,0 +1,23 @@
+display_name: PatchTST
+family: transformer
+adapter: neuralforecast
+reference: "Nie et al., A Time Series is Worth 64 Words: Long-term Forecasting with Transformers, ICLR 2023."
+params:
+  model: PatchTST
+  lookback_hours: 168
+  loss: mqloss
+  exogenous: false           # NeuralForecast PatchTST is univariate
+  scaler_type: robust
+  patch_len: 16
+  stride: 8
+  hidden_size: 128
+  n_heads: 4
+  max_steps: 3000
+  learning_rate: 0.0001
+  batch_size: 32
+  windows_batch_size: 256
+  val_check_steps: 50
+  early_stop_patience_steps: 10
+task_params:
+  mit-5min-1h: {lookback_hours: 24}
+  mit-15min-4h: {lookback_hours: 72}

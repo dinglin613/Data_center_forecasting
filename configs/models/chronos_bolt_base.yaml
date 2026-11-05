@@ -1,0 +1,9 @@
+display_name: Chronos-Bolt base (zero-shot)
+family: foundation
+adapter: chronos
+reference: "Ansari et al., Chronos: Learning the Language of Time Series, TMLR 2024 (Chronos-Bolt release, 2024)."
+params:
+  checkpoint: amazon/chronos-bolt-base
+  context_steps: 2048        # model maximum
+  batch_size: 256
+  tail: gaussian             # Bolt predicts 0.1..0.9 only; see chronos_adapter.py

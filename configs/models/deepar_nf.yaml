@@ -1,0 +1,26 @@
+display_name: DeepAR (NeuralForecast, diagnostic)
+leaderboard: false
+# Not for the leaderboard: NeuralForecast 3.x feeds the predicted mean back in
+# multi-step prediction (no ancestral sampling), so its intervals are far too narrow.
+# Use deepar.yaml (GluonTS).
+family: rnn
+adapter: neuralforecast
+reference: "Salinas et al., DeepAR: Probabilistic forecasting with autoregressive recurrent networks, IJF 2020."
+params:
+  model: DeepAR
+  lookback_hours: 168
+  loss: distribution
+  distribution: StudentT
+  exogenous: false           # NeuralForecast DeepAR has no past-only exogenous inputs
+  scaler_type: standard
+  lstm_hidden_size: 128
+  lstm_n_layers: 2
+  max_steps: 3000
+  learning_rate: 0.001
+  batch_size: 32
+  windows_batch_size: 256
+  val_check_steps: 50
+  early_stop_patience_steps: 10
+task_params:
+  mit-5min-1h: {lookback_hours: 24}
+  mit-15min-4h: {lookback_hours: 72}

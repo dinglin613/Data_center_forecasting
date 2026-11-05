@@ -1,0 +1,24 @@
+display_name: N-HiTS
+family: mlp
+adapter: neuralforecast
+reference: "Challu et al., N-HiTS: Neural Hierarchical Interpolation for Time Series Forecasting, AAAI 2023."
+# Phase-1 default, picked on mean val CRPS (2 seeds) from 13 variants on mit-1h-24h
+# (scripts/diag_nf.py). The library default (3.7M params, robust scaler, exog) overfit
+# after ~50 steps; exogenous inputs and the robust scaler made val CRPS worse. Not tuned yet.
+params:
+  model: NHITS
+  lookback_hours: 168        # input window, converted to steps per task
+  loss: mqloss               # multi-quantile pinball loss at task.taus
+  exogenous: false           # scheduler features as past-only inputs (hurt on val)
+  scaler_type: standard      # per-window scaling
+  mlp_units: [[128, 128], [128, 128], [128, 128]]
+  dropout_prob_theta: 0.1
+  max_steps: 3000
+  learning_rate: 0.001
+  batch_size: 32
+  windows_batch_size: 256
+  val_check_steps: 10
+  early_stop_patience_steps: 20
+task_params:
+  mit-5min-1h: {lookback_hours: 24}
+  mit-15min-4h: {lookback_hours: 72}

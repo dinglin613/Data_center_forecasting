@@ -1,0 +1,22 @@
+display_name: TFT
+family: transformer
+adapter: neuralforecast
+reference: "Lim et al., Temporal Fusion Transformers for interpretable multi-horizon time series forecasting, IJF 2021."
+params:
+  model: TFT
+  lookback_hours: 168
+  loss: mqloss
+  exogenous: true
+  scaler_type: robust
+  hidden_size: 64
+  n_head: 4
+  dropout: 0.1
+  max_steps: 3000
+  learning_rate: 0.001
+  batch_size: 32
+  windows_batch_size: 256
+  val_check_steps: 50
+  early_stop_patience_steps: 10
+task_params:
+  mit-5min-1h: {lookback_hours: 24}
+  mit-15min-4h: {lookback_hours: 72}

@@ -1,0 +1,4 @@
+display_name: Seasonal naive (24 h)
+family: baseline
+adapter: builtin
+params: {cls: seasonal_naive}
