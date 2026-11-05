@@ -9,7 +9,10 @@ Leakage control:
   * training windows need a full past and targets inside the train targets;
   * validation windows have all targets inside the val targets;
   * the input for origin t is the history ``s0..t``.
-No exogenous or calendar inputs by default (future covariates are not allowed).
+Inputs: calendar features (known in advance) as dynamic real features over
+the context and the horizon. GluonTS DeepAR has no past-only covariates, so
+scheduler features are not used. ``target="change"`` models first differences
+and integrates the sampled paths from the origin value.
 """
 from __future__ import annotations
 
@@ -19,7 +22,7 @@ import time
 import numpy as np
 import pandas as pd
 
-from dcgridbench.models.external.base import ExternalModel, steps
+from dcgridbench.models.external.base import ExternalModel, calendar, steps
 
 
 class GluonTSDeepAR(ExternalModel):
@@ -30,12 +33,15 @@ class GluonTSDeepAR(ExternalModel):
                  num_layers: int = 2, hidden_size: int = 40, dropout_rate: float = 0.1, lr: float = 1e-3,
                  batch_size: int = 64, num_batches_per_epoch: int = 50, max_epochs: int = 100,
                  early_stop_patience: int = 10, distribution: str = "studentt", num_samples: int = 200,
+                 calendar: bool = True, target: str = "level", scaling: bool = True,
                  predict_batch: int = 256, accelerator: str = "auto", seed: int = 0, name: str = "deepar"):
         super().__init__(context_hours=context_hours, lags_hours=lags_hours, num_layers=num_layers,
                          hidden_size=hidden_size, dropout_rate=dropout_rate, lr=lr, batch_size=batch_size,
                          num_batches_per_epoch=num_batches_per_epoch, max_epochs=max_epochs,
                          early_stop_patience=early_stop_patience, distribution=distribution,
-                         num_samples=num_samples)
+                         num_samples=num_samples, calendar=calendar, target=target, scaling=scaling)
+        if target not in ("level", "change"):
+            raise ValueError(f"target must be level or change, got {target}")
         self.p = dict(self.params)
         self.predict_batch, self.accelerator, self.seed, self.name = predict_batch, accelerator, seed, name
 
@@ -49,6 +55,21 @@ class GluonTSDeepAR(ExternalModel):
         from gluonts.torch.distributions import NormalOutput, StudentTOutput
         return {"studentt": StudentTOutput, "normal": NormalOutput}[self.p["distribution"]]()
 
+    def _series(self, df, task):
+        """Model target (level or first difference) and calendar over the index plus H steps."""
+        y = df[task.target].to_numpy(np.float64)
+        z = np.r_[np.nan, np.diff(y)] if self.p["target"] == "change" else y
+        step = pd.Timedelta(task.resolution)
+        ext = df.index.append(pd.DatetimeIndex([df.index[-1] + k * step for k in range(1, task.horizon + 1)]))
+        cal = calendar(ext).T.astype(np.float32)
+        return z.astype(np.float32), cal
+
+    def _item(self, z, cal, stop, n_future=0):
+        item = {"start": self.start, "target": z[self.s0:stop]}
+        if self.p["calendar"]:
+            item["feat_dynamic_real"] = cal[:, self.s0:stop + n_future]
+        return item
+
     def fit(self, df, idx, task, val_idx=None):
         import lightning.pytorch as pl
         import torch
@@ -60,17 +81,17 @@ class GluonTSDeepAR(ExternalModel):
         C = steps(self.p["context_hours"], task)
         self.lags = self._lags(task)
         self.P = C + max(self.lags)  # rows of history DeepAR reads
-        self.y = df[task.target].to_numpy(np.float32)
-        self.s0 = max(0, int(idx.min()) + 1 - self.P)
+        z, cal = self._series(df, task)
+        self.s0 = max(1, int(idx.min()) + 1 - self.P)
         self.start = pd.Period(df.index[self.s0].tz_convert(None), freq=task.resolution)
         train_stop = int(idx.max()) + H + 1
-        train = [{"start": self.start, "target": self.y[self.s0:train_stop]}]
+        train = [self._item(z, cal, train_stop)]
         val, val_sampler = None, None
         if val_idx is not None and len(val_idx):
             if int(val_idx.min()) < train_stop - 1:
                 raise ValueError("validation origins overlap the training targets")
             val_stop = int(val_idx.max()) + H + 1
-            val = [{"start": self.start, "target": self.y[self.s0:val_stop]}]
+            val = [self._item(z, cal, val_stop)]
             val_sampler = ValidationSplitSampler(min_past=int(val_idx.min()) + 1 - self.s0, min_future=H)
         self._tmp = tempfile.TemporaryDirectory()
         callbacks = []
@@ -79,6 +100,7 @@ class GluonTSDeepAR(ExternalModel):
         acc = self.accelerator if self.accelerator != "auto" else ("gpu" if torch.cuda.is_available() else "cpu")
         est = DeepAREstimator(
             freq=task.resolution, prediction_length=H, context_length=C, lags_seq=self.lags, time_features=[],
+            num_feat_dynamic_real=len(cal) if self.p["calendar"] else 0, scaling=self.p["scaling"],
             num_layers=self.p["num_layers"], hidden_size=self.p["hidden_size"],
             dropout_rate=self.p["dropout_rate"], lr=self.p["lr"], batch_size=self.p["batch_size"],
             num_batches_per_epoch=self.p["num_batches_per_epoch"], distr_output=self._distr(),
@@ -97,14 +119,18 @@ class GluonTSDeepAR(ExternalModel):
     def sample(self, df, idx, task, n_samples=None, seed=None):
         import torch
         torch.manual_seed(self.seed if seed is None else seed)
-        y = df[task.target].to_numpy(np.float32)
+        z, cal = self._series(df, task)
+        anchor = df[task.target].ffill().to_numpy(np.float64)
         n = n_samples or self.p["num_samples"]
         out = []
         for s in range(0, len(idx), self.predict_batch):
             part = idx[s:s + self.predict_batch]
-            data = [{"start": self.start, "target": y[self.s0:o + 1]} for o in part]  # history up to o
+            data = [self._item(z, cal, o + 1, task.horizon) for o in part]  # history up to o
             out.extend(f.samples for f in self.predictor.predict(data, num_samples=n))
-        return np.stack(out).astype(np.float64)  # (n, S, H)
+        paths = np.stack(out).astype(np.float64)  # (n, S, H)
+        if self.p["target"] == "change":
+            paths = anchor[np.asarray(idx)][:, None, None] + np.cumsum(paths, axis=-1)
+        return paths
 
     def predict(self, df, idx, task):
         s = self.sample(df, np.asarray(idx), task)
@@ -113,5 +139,6 @@ class GluonTSDeepAR(ExternalModel):
     def info(self):
         d = super().info()
         d["exogenous"] = []
+        d["future_known"] = ["hour_sin", "hour_cos", "dow_sin", "dow_cos"] if self.p["calendar"] else []
         d["lags_steps"] = list(map(int, getattr(self, "lags", [])))
         return d

@@ -8,6 +8,12 @@ test data are never seen. The weights with the best validation loss are kept.
 Prediction: every origin becomes its own short series with the ``input_size``
 rows up to and including the origin, so all origins are forecast in one
 batched call and no row after an origin is visible.
+
+Inputs: scheduler features are past-only (``hist_exog``); calendar features
+(local hour, day of week) are known in advance and also given for the target
+times (``futr_exog``). ``target="change"`` shifts every window by its last
+observed value (scalers ``last_std`` / ``last_robust``), so the network
+predicts the change from the origin value, as the TCN does.
 """
 from __future__ import annotations
 
@@ -17,7 +23,8 @@ import time
 import numpy as np
 import pandas as pd
 
-from dcgridbench.models.external.base import SCHED_COLS, ExternalModel, context_windows, steps, to_task_quantiles
+from dcgridbench.models.external.base import (CAL_COLS, SCHED_COLS, ExternalModel, calendar, context_windows,
+                                              steps, to_task_quantiles)
 
 _LEVEL = re.compile(r"-(lo|hi)-([0-9.]+)$")
 
@@ -57,6 +64,41 @@ def quantile_columns(cols, alias):
     return [t for t, _ in out], [c for _, c in out]
 
 
+def install_last_scalers():
+    """Add scaler types ``last_std`` and ``last_robust`` to NeuralForecast's TemporalNorm.
+
+    Shift = last observed input value of the window, scale = std or MAD of the window.
+    """
+    import torch
+    from neuralforecast.common import _scalers as S
+    if getattr(S.TemporalNorm, "_dcgb_last", False):
+        return
+    orig = S.TemporalNorm.__init__
+
+    def init(self, scaler_type="robust", dim=-1, eps=1e-6, num_features=None):
+        base = {"last_std": "standard", "last_robust": "robust"}.get(scaler_type)
+        orig(self, scaler_type=base or scaler_type, dim=dim, eps=eps, num_features=num_features)
+        if base is None:
+            return
+        stats = self.compute_statistics
+
+        def last_stats(x, mask, dim=-1, eps=1e-6):
+            _, scale = stats(x=x, mask=mask, dim=dim, eps=eps)
+            T = x.shape[dim]
+            shape = [1] * x.ndim
+            shape[dim] = T
+            pos = (mask > 0) * (torch.arange(1, T + 1, device=x.device).view(shape))
+            last = (pos.amax(dim=dim, keepdim=True) - 1).clamp(min=0)
+            last = last.expand(*[s if i != dim else 1 for i, s in enumerate(x.shape)])
+            return torch.gather(x, dim, last.long()), scale
+
+        self.compute_statistics = last_stats
+        self.scaler_type = scaler_type
+
+    S.TemporalNorm.__init__ = init
+    S.TemporalNorm._dcgb_last = True
+
+
 def _best_state_callback():
     import pytorch_lightning as pl
 
@@ -81,12 +123,15 @@ class NeuralForecastModel(ExternalModel):
     library = "neuralforecast"
 
     def __init__(self, model: str, lookback_hours: float = 168, loss: str = "mqloss",
-                 distribution: str | None = None, exogenous: bool = True, seed: int = 0,
-                 accelerator: str = "auto", restore_best: bool = True, name: str | None = None,
-                 predict_batch: int = 4096, **model_kw):
-        super().__init__(model=model, lookback_hours=lookback_hours, loss=loss,
-                         distribution=distribution, exogenous=exogenous, restore_best=restore_best,
+                 distribution: str | None = None, exogenous: bool = True, calendar: bool = True,
+                 target: str = "level", seed: int = 0, accelerator: str = "auto", restore_best: bool = True,
+                 name: str | None = None, predict_batch: int = 4096, **model_kw):
+        super().__init__(model=model, lookback_hours=lookback_hours, loss=loss, distribution=distribution,
+                         exogenous=exogenous, calendar=calendar, target=target, restore_best=restore_best,
                          **model_kw)
+        if target not in ("level", "change"):
+            raise ValueError(f"target must be level or change, got {target}")
+        self.calendar, self.target = calendar, target
         self.model_name, self.lookback_hours = model, lookback_hours
         self.loss_kind, self.distribution = loss, distribution
         self.exogenous, self.seed, self.accelerator = exogenous, seed, accelerator
@@ -101,6 +146,9 @@ class NeuralForecastModel(ExternalModel):
         if not self.exogenous or not getattr(self._cls(), "EXOGENOUS_HIST", False):
             return []
         return [c for c in SCHED_COLS if c in df]
+
+    def _futr_cols(self):
+        return list(CAL_COLS) if self.calendar and getattr(self._cls(), "EXOGENOUS_FUTR", False) else []
 
     @staticmethod
     def segment(df, train_idx, val_idx, task):
@@ -124,6 +172,8 @@ class NeuralForecastModel(ExternalModel):
         for c in self.exog:
             out[c] = part[c].to_numpy(float)
         out = out.ffill().bfill()
+        if self.futr:
+            out[self.futr] = calendar(part.index)
         out["available_mask"] = y.notna().to_numpy(float)
         return out
 
@@ -131,7 +181,7 @@ class NeuralForecastModel(ExternalModel):
         from neuralforecast import NeuralForecast
 
         self.L = steps(self.lookback_hours, task)
-        self.exog = self._exog_cols(df)
+        self.exog, self.futr = self._exog_cols(df), self._futr_cols()
         first, stop, val_size = self.segment(df, idx, val_idx, task)
         start = max(0, first + 1 - self.L)  # input window of the first train origin
         self.fit_range_ = (int(start), int(stop), int(val_size))
@@ -140,6 +190,11 @@ class NeuralForecastModel(ExternalModel):
         kw.setdefault("devices", 1)  # one device; NF would otherwise take all GPUs
         if self.exog:
             kw["hist_exog_list"] = self.exog
+        if self.futr:
+            kw["futr_exog_list"] = self.futr
+        if self.target == "change":
+            install_last_scalers()
+            kw["scaler_type"] = {"standard": "last_std", "robust": "last_robust"}[kw.get("scaler_type", "standard")]
         callbacks = [_best_state_callback()] if (val_size and self.restore_best) else []
         model = self._cls()(h=task.horizon, input_size=self.L,
                             loss=make_loss(self.loss_kind, task.taus, self.distribution),
@@ -175,14 +230,28 @@ class NeuralForecastModel(ExternalModel):
             step = pd.Timedelta(task.resolution)
             ds0 = df.index.tz_convert(None)[0]
             frame["ds"] = np.where(pos.reshape(-1) < 0, ds0 + pos.reshape(-1) * step, frame["ds"])
+        if self.futr:
+            frame[self.futr] = calendar(pd.DatetimeIndex(frame["ds"]).tz_localize("UTC"))
         return frame
+
+    def _futr_frame(self, df, idx, task):
+        """Calendar values at the target times of each origin (known in advance)."""
+        if not self.futr:
+            return None
+        step = pd.Timedelta(task.resolution)
+        t0 = df.index.tz_convert(None).to_numpy()[idx]
+        ds = (t0[:, None] + np.arange(1, task.horizon + 1)[None] * step).reshape(-1)
+        out = pd.DataFrame({"unique_id": np.repeat(np.asarray(idx), task.horizon), "ds": ds})
+        out[self.futr] = calendar(pd.DatetimeIndex(ds).tz_localize("UTC"))
+        return out
 
     def predict(self, df, idx, task):
         idx = np.asarray(idx)
         qs = []
         for s in range(0, len(idx), self.predict_batch):
             part = idx[s:s + self.predict_batch]
-            fc = self.nf.predict(df=self._long_frame(df, part, task)).sort_values(["unique_id", "ds"])
+            fc = self.nf.predict(df=self._long_frame(df, part, task), futr_df=self._futr_frame(df, part, task))
+            fc = fc.sort_values(["unique_id", "ds"])
             levels, cols = quantile_columns(fc.columns, self.alias)
             arr = fc[cols].to_numpy(float).reshape(len(part), task.horizon, len(cols))
             ids = fc["unique_id"].to_numpy().reshape(len(part), task.horizon)[:, 0]
@@ -195,6 +264,7 @@ class NeuralForecastModel(ExternalModel):
     def info(self):
         d = super().info()
         d["exogenous"] = list(getattr(self, "exog", []))
+        d["future_known"] = list(getattr(self, "futr", []))
         d["best_val_loss"] = getattr(self, "best_val", None)
         d["best_step"] = getattr(self, "best_step", None)
         return d

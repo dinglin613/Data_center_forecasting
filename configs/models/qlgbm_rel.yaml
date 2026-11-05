@@ -1,0 +1,6 @@
+display_name: Quantile LightGBM (relative features)
+family: gbdt
+adapter: builtin
+reference: "DCGridBench baseline (dcgridbench/models/baselines.py)."
+notes: "fixed settings from the reference implementation, not tuned"
+params: {cls: qlgbm_rel, n_jobs: 8}

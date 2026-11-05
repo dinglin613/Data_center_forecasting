@@ -11,7 +11,7 @@ import numpy as np
 
 from dcgridbench.metrics import scores as S
 
-SCHEMA_VERSION = "1.0"
+SCHEMA_VERSION = "1.1"
 REGIME_NAMES = {0: "low", 1: "calm", 2: "active", 3: "volatile"}
 
 
@@ -59,16 +59,18 @@ def environment() -> dict:
     return env
 
 
-def make_record(*, task, cfg, model_info, seed, splits, metrics, runtime, predictions_file, extra=None) -> dict:
+def make_record(*, task, cfg, model_info, seed, splits, metrics, runtime, predictions_file, extra=None,
+                purpose="final") -> dict:
     rec = {
         "schema_version": SCHEMA_VERSION,
+        "purpose": purpose,
         "task": task.name,
         "task_spec": {"resolution": task.resolution, "horizon": task.horizon, "stride": task.stride,
                       "taus": list(task.taus), "unit": "kW"},
         "model": {"name": cfg["name"], "display_name": cfg.get("display_name", cfg["name"]),
                   "family": cfg["family"], "adapter": cfg.get("adapter", cfg.get("class")),
                   "config_file": cfg.get("config_file"), "reference": cfg.get("reference"),
-                  "leaderboard": bool(cfg.get("leaderboard", True)),
+                  "leaderboard": bool(cfg.get("leaderboard", True)), "notes": cfg.get("notes"),
                   **model_info},
         "seed": int(seed),
         "splits": splits,
@@ -104,7 +106,7 @@ def validate(rec: dict) -> None:
                 raise ValueError(f"{where}.{k}: expected {t}, got {type(d[k]).__name__}")
     need(rec, _REQ, "record")
     need(rec["model"], _REQ_MODEL, "model")
-    if "test" not in rec["metrics"]:
+    if rec.get("purpose", "final") == "final" and "test" not in rec["metrics"]:
         raise ValueError("metrics: missing 'test'")
     for split, m in rec["metrics"].items():
         for stage, keys in _REQ_STAGE.items():

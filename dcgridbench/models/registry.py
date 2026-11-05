@@ -26,6 +26,7 @@ ADAPTERS = {
     "neuralforecast": "dcgridbench.models.external.neuralforecast_adapter:NeuralForecastModel",
     "chronos": "dcgridbench.models.external.chronos_adapter:ChronosModel",
     "gluonts_deepar": "dcgridbench.models.external.gluonts_adapter:GluonTSDeepAR",
+    "timesfm": "dcgridbench.models.external.timesfm_adapter:TimesFMModel",
     "builtin": None,
 }
 REQUIRED = ("family",)
@@ -52,8 +53,9 @@ def load_config(name_or_path: str, config_dir: Path | str = CONFIG_DIR) -> dict:
     return cfg
 
 
-def resolve_params(cfg: dict, task_name: str) -> dict:
-    return {**cfg["params"], **(cfg["task_params"].get(task_name) or {})}
+def resolve_params(cfg: dict, task_name: str, overrides: dict | None = None) -> dict:
+    """Config params, then per-task overrides, then run-time overrides (tuning)."""
+    return {**cfg["params"], **(cfg["task_params"].get(task_name) or {}), **(overrides or {})}
 
 
 def _import(path: str):
@@ -69,9 +71,9 @@ def _builtin(cls_name: str):
     return MODELS[cls_name]
 
 
-def build(cfg: dict, task_name: str, seed: int = 0):
+def build(cfg: dict, task_name: str, seed: int = 0, overrides: dict | None = None):
     """Instantiate the model described by ``cfg`` for one task and seed."""
-    params = resolve_params(cfg, task_name)
+    params = resolve_params(cfg, task_name, overrides)
     if "class" in cfg:
         cls = _import(cfg["class"])
     elif cfg["adapter"] == "builtin":

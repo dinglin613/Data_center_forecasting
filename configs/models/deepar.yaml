@@ -2,7 +2,7 @@ display_name: DeepAR
 family: rnn
 adapter: gluonts_deepar
 reference: "Salinas et al., DeepAR: Probabilistic forecasting with autoregressive recurrent networks, IJF 2020."
-# GluonTS implementation: ancestral sampling of whole paths (native samples).
+notes: "tuned (20-trial random search); GluonTS, ancestral sampling, native paths; no scheduler inputs"
 params:
   context_hours: 168
   lags_hours: [1, 2, 3, 4, 5, 6, 12, 23, 24, 25, 48, 72, 167, 168, 169]
@@ -10,12 +10,28 @@ params:
   hidden_size: 40
   dropout_rate: 0.1
   lr: 0.001
-  batch_size: 64
-  num_batches_per_epoch: 50
-  max_epochs: 100
-  early_stop_patience: 10
   distribution: studentt
+  calendar: true
+  target: level
+  scaling: true
   num_samples: 200           # paths per origin; quantiles are taken from them
+  # fixed training budget: 40 x 50 = 2000 steps of 256 windows, stop after 300 steps without gain
+  batch_size: 256
+  num_batches_per_epoch: 50
+  max_epochs: 40
+  early_stop_patience: 6
 task_params:
   mit-5min-1h: {context_hours: 24, lags_hours: [0.0833, 0.1667, 0.25, 0.5, 1, 2, 3, 6, 12, 24]}
   mit-15min-4h: {context_hours: 72, lags_hours: [0.25, 0.5, 0.75, 1, 2, 4, 6, 12, 24, 48, 168]}
+search:
+  scheduler: null            # GluonTS DeepAR has no past-only covariates
+  calendar: calendar
+  target: target
+  scaler: {key: scaling, values: {standard: true, robust: false}}
+  dropout: dropout_rate
+  lr: lr
+  lookback: context_hours
+  size:
+    small: {hidden_size: 20}
+    medium: {hidden_size: 40}
+    large: {hidden_size: 80}

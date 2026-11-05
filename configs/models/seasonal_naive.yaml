@@ -1,4 +1,6 @@
 display_name: Seasonal naive (24 h)
 family: baseline
 adapter: builtin
+deterministic: true
+notes: "empirical train-residual quantiles"
 params: {cls: seasonal_naive}

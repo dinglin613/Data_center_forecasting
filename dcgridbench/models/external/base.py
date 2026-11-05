@@ -14,9 +14,20 @@ from __future__ import annotations
 import importlib.metadata as md
 
 import numpy as np
+import pandas as pd
 from scipy.stats import norm
 
 SCHED_COLS = ["gpus_alloc", "jobs_running", "gpus_queued", "jobs_queued"]
+CAL_COLS = ["hour_sin", "hour_cos", "dow_sin", "dow_cos"]
+LOCAL_TZ = "America/New_York"
+
+
+def calendar(index) -> np.ndarray:
+    """(T, 4) sin/cos of local hour of day and day of week; a function of time stamps only."""
+    local = pd.DatetimeIndex(index).tz_convert(LOCAL_TZ)
+    hour = (local.hour + local.minute / 60).to_numpy() * (2 * np.pi / 24)
+    dow = (local.dayofweek + local.hour / 24).to_numpy() * (2 * np.pi / 7)
+    return np.stack([np.sin(hour), np.cos(hour), np.sin(dow), np.cos(dow)], axis=1)
 
 
 class ExternalModel:

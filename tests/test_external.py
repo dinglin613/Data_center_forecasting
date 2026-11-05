@@ -202,3 +202,91 @@ def test_gluonts_deepar_shapes_samples_leakage(gdeepar):
     a = m.sample(df, np.array([o]), task, 30, seed=2)
     b = m.sample(_perturb_after(df, o), np.array([o]), task, 30, seed=2)
     assert np.allclose(a, b)
+
+
+# ---------------------------------------------------------------- Phase 2: calendar, change target, tuning, stages
+
+def test_calendar_is_time_only():
+    from dcgridbench.models.external.base import calendar
+    c = calendar(df.index)
+    assert c.shape == (len(df), 4) and np.allclose(c[:, 0] ** 2 + c[:, 1] ** 2, 1)
+    assert np.allclose(calendar(df.index[24:48]), c[24:48])
+
+
+def test_nf_change_target_calendar_and_leakage():
+    pytest.importorskip("neuralforecast")
+    from dcgridbench.models.external.neuralforecast_adapter import NeuralForecastModel
+    m = NeuralForecastModel(model="NHITS", lookback_hours=24, target="change", calendar=True, exogenous=True,
+                            max_steps=20, val_check_steps=10, batch_size=8, windows_batch_size=64,
+                            scaler_type="standard", accelerator="cpu").fit(df, TR, task, val_idx=VA)
+    assert m.futr == ["hour_sin", "hour_cos", "dow_sin", "dow_cos"]
+    q = m.predict(df, TE, task)
+    _check_quantiles(q, len(TE))
+    o = TE[len(TE) // 2]
+    # future targets and scheduler values may change; calendar depends on time stamps only
+    assert np.allclose(m.predict(_perturb_after(df, o), np.array([o]), task), q[len(TE) // 2:len(TE) // 2 + 1])
+    # change target: the median moves one-for-one with the level of the input window
+    g = df.copy()
+    g["power_w"] += 50.0
+    assert np.allclose(m.predict(g, np.array([o]), task)[..., 4], q[len(TE) // 2, :, 4] + 50.0, atol=1e-2)
+
+
+def test_gluonts_change_target():
+    pytest.importorskip("gluonts.torch")
+    from dcgridbench.models.external.gluonts_adapter import GluonTSDeepAR
+    m = GluonTSDeepAR(context_hours=24, lags_hours=[1, 2, 24], hidden_size=8, max_epochs=1,
+                      num_batches_per_epoch=3, num_samples=20, target="change", calendar=True,
+                      accelerator="cpu").fit(df, TR, task, val_idx=VA)
+    s = m.sample(df, TE[:5], task, n_samples=20, seed=0)
+    assert s.shape == (5, 20, task.horizon) and np.isfinite(s).all()
+    o = TE[len(TE) // 2]
+    assert np.allclose(m.sample(df, np.array([o]), task, 20, seed=3),
+                       m.sample(_perturb_after(df, o), np.array([o]), task, 20, seed=3))
+
+
+@pytest.fixture(scope="module")
+def tfm():
+    pytest.importorskip("timesfm")
+    from dcgridbench.models.external.timesfm_adapter import TimesFMModel
+    try:
+        return TimesFMModel(context_steps=128, batch_size=32).fit(df, TR, task)
+    except OSError as e:
+        pytest.skip(f"cannot load checkpoint: {e}")
+
+
+def test_timesfm_shapes_and_leakage(tfm):
+    q = tfm.predict(df, TE, task)
+    _check_quantiles(q, len(TE))
+    o = TE[7]
+    assert np.allclose(tfm.predict(_perturb_after(df, o), np.array([o]), task), q[7:8], atol=1e-3)
+
+
+def test_tuning_same_draws_for_all_models():
+    from dcgridbench.tuning import N_TRIALS, trials_for
+    a = trials_for(registry.load_config("nhits"), "mit-1h-24h")
+    b = trials_for(registry.load_config("deepar"), "mit-1h-24h")
+    assert len(a) == len(b) == N_TRIALS
+    assert all(x["shared"] == y["shared"] for x, y in zip(a, b))
+    assert "exogenous" in a[0]["override"] and "context_hours" in b[0]["override"]
+    assert all(t["shared"]["lookback"] in (48, 168, 336) for t in a)
+    z = trials_for(registry.load_config("chronos_bolt_base"), "mit-1h-24h")
+    assert [t["override"]["context_steps"] for t in z] == [512, 1024, 2048]
+    for n in registry.list_configs():  # every override builds
+        cfg = registry.load_config(n)
+        for t in trials_for(cfg, "mit-5min-1h")[:3]:
+            registry.build(cfg, "mit-5min-1h", overrides=t["override"])
+
+
+def test_stage_scoring_on_stream():
+    from dcgridbench.leaderboard.stages import score_stream
+    m = registry.fit_model(registry.build(registry.load_config("persistence"), "t"), df, TR, task, VA)
+    Y = target_windows(df.power_w.to_numpy(), task.horizon)
+    stream = np.concatenate([VA, TE])
+    st = {"q": m.predict(df, stream, task), "y": Y[stream], "t": stream, "n_val": len(VA),
+          "reg": rng.integers(0, 4, len(stream))}
+    native = rng.normal(30, 3, (len(TE), 10, task.horizon))
+    r = score_stream(st, task, native=native, n_scen=20)
+    assert set(r["calibration"]) == {"raw", "static", "regime", "online", "online_regime"}
+    assert "native" in r["stage3"]["raw"] and "native" not in r["stage3"]["online_regime"]
+    c = r["stage4"]["online_regime"]["block"]["schaake"]["0.1"]["cost"]
+    assert np.isfinite(c) and c > 0
