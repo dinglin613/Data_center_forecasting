@@ -1,0 +1,55 @@
+{
+ "override": {
+  "context_steps": 512
+ },
+ "trial": 0,
+ "val_crps_mean": 0.3311565584699111,
+ "val_crps_std": 0.0,
+ "n_seeds": 1,
+ "n_trials": 3,
+ "n_complete": 3,
+ "trials": [
+  {
+   "trial": 0,
+   "override": {
+    "context_steps": 512
+   },
+   "seeds": [
+    0
+   ],
+   "val_crps": [
+    0.3311565584699111
+   ],
+   "val_crps_mean": 0.3311565584699111,
+   "fit_seconds": 10.367307662963867
+  },
+  {
+   "trial": 1,
+   "override": {
+    "context_steps": 1024
+   },
+   "seeds": [
+    0
+   ],
+   "val_crps": [
+    0.33513385219153863
+   ],
+   "val_crps_mean": 0.33513385219153863,
+   "fit_seconds": 10.373682260513306
+  },
+  {
+   "trial": 2,
+   "override": {
+    "context_steps": 2048
+   },
+   "seeds": [
+    0
+   ],
+   "val_crps": [
+    0.33566233628122893
+   ],
+   "val_crps_mean": 0.33566233628122893,
+   "fit_seconds": 11.386621236801147
+  }
+ ]
+}

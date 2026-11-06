@@ -1,0 +1,480 @@
+{
+ "override": {
+  "exogenous": false,
+  "calendar": true,
+  "target": "change",
+  "scaler_type": "robust",
+  "hidden_size": 128,
+  "dropout": 0.2,
+  "learning_rate": 0.0013049333243043573,
+  "lookback_hours": 72
+ },
+ "trial": 4,
+ "val_crps_mean": 0.6178642590440837,
+ "val_crps_std": 0.005287532312072074,
+ "n_seeds": 2,
+ "n_trials": 20,
+ "n_complete": 20,
+ "trials": [
+  {
+   "trial": 0,
+   "override": {
+    "exogenous": false,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "robust",
+    "hidden_size": 32,
+    "dropout": 0.1,
+    "learning_rate": 0.001626584764266949,
+    "lookback_hours": 24
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.702769131286969,
+    0.7259223120755466
+   ],
+   "val_crps_mean": 0.7143457216812579,
+   "fit_seconds": 155.00389325618744
+  },
+  {
+   "trial": 1,
+   "override": {
+    "exogenous": false,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "robust",
+    "hidden_size": 128,
+    "dropout": 0.1,
+    "learning_rate": 0.00011463314526793308,
+    "lookback_hours": 72
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.757257867373591,
+    0.8059182666320251
+   ],
+   "val_crps_mean": 0.7815880670028081,
+   "fit_seconds": 893.6520105600357
+  },
+  {
+   "trial": 2,
+   "override": {
+    "exogenous": false,
+    "calendar": true,
+    "target": "change",
+    "scaler_type": "standard",
+    "hidden_size": 32,
+    "dropout": 0.2,
+    "learning_rate": 0.0014861053717305198,
+    "lookback_hours": 24
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.6207106141585115,
+    0.6293573803994117
+   ],
+   "val_crps_mean": 0.6250339972789616,
+   "fit_seconds": 110.14444375038147
+  },
+  {
+   "trial": 3,
+   "override": {
+    "exogenous": false,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "standard",
+    "hidden_size": 64,
+    "dropout": 0.0,
+    "learning_rate": 0.0004936355375156941,
+    "lookback_hours": 72
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.6817583807637184,
+    0.6942446743501475
+   ],
+   "val_crps_mean": 0.6880015275569329,
+   "fit_seconds": 507.89072251319885
+  },
+  {
+   "trial": 4,
+   "override": {
+    "exogenous": false,
+    "calendar": true,
+    "target": "change",
+    "scaler_type": "robust",
+    "hidden_size": 128,
+    "dropout": 0.2,
+    "learning_rate": 0.0013049333243043573,
+    "lookback_hours": 72
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.6125767267320116,
+    0.6231517913561557
+   ],
+   "val_crps_mean": 0.6178642590440837,
+   "fit_seconds": 415.7045295238495
+  },
+  {
+   "trial": 5,
+   "override": {
+    "exogenous": true,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "standard",
+    "hidden_size": 32,
+    "dropout": 0.1,
+    "learning_rate": 0.0007280257904156456,
+    "lookback_hours": 24
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.6909826167538075,
+    0.7018064760535899
+   ],
+   "val_crps_mean": 0.6963945464036987,
+   "fit_seconds": 164.11374616622925
+  },
+  {
+   "trial": 6,
+   "override": {
+    "exogenous": false,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "robust",
+    "hidden_size": 32,
+    "dropout": 0.1,
+    "learning_rate": 0.0001551965346642212,
+    "lookback_hours": 24
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.879777605197424,
+    0.8800140197715609
+   ],
+   "val_crps_mean": 0.8798958124844924,
+   "fit_seconds": 443.33222222328186
+  },
+  {
+   "trial": 7,
+   "override": {
+    "exogenous": false,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "robust",
+    "hidden_size": 64,
+    "dropout": 0.2,
+    "learning_rate": 0.0016530303672217695,
+    "lookback_hours": 72
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.6877309128949243,
+    0.6986348908031509
+   ],
+   "val_crps_mean": 0.6931829018490376,
+   "fit_seconds": 527.406258225441
+  },
+  {
+   "trial": 8,
+   "override": {
+    "exogenous": true,
+    "calendar": true,
+    "target": "change",
+    "scaler_type": "standard",
+    "hidden_size": 128,
+    "dropout": 0.1,
+    "learning_rate": 0.00023692461090646537,
+    "lookback_hours": 72
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.6288091821364873,
+    0.6179038469070252
+   ],
+   "val_crps_mean": 0.6233565145217562,
+   "fit_seconds": 291.3937340974808
+  },
+  {
+   "trial": 9,
+   "override": {
+    "exogenous": false,
+    "calendar": true,
+    "target": "change",
+    "scaler_type": "standard",
+    "hidden_size": 32,
+    "dropout": 0.2,
+    "learning_rate": 0.002239227810839213,
+    "lookback_hours": 168
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.6244122908327449,
+    0.6214554736010288
+   ],
+   "val_crps_mean": 0.6229338822168868,
+   "fit_seconds": 506.0898826122284
+  },
+  {
+   "trial": 10,
+   "override": {
+    "exogenous": true,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "standard",
+    "hidden_size": 128,
+    "dropout": 0.1,
+    "learning_rate": 0.0010605090003933894,
+    "lookback_hours": 168
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.6937172626809596,
+    0.7364913196727255
+   ],
+   "val_crps_mean": 0.7151042911768426,
+   "fit_seconds": 598.3515048027039
+  },
+  {
+   "trial": 11,
+   "override": {
+    "exogenous": true,
+    "calendar": true,
+    "target": "change",
+    "scaler_type": "standard",
+    "hidden_size": 32,
+    "dropout": 0.0,
+    "learning_rate": 0.001602933731743675,
+    "lookback_hours": 72
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.6274452582006496,
+    0.6220972971141842
+   ],
+   "val_crps_mean": 0.6247712776574168,
+   "fit_seconds": 386.4564012289047
+  },
+  {
+   "trial": 12,
+   "override": {
+    "exogenous": false,
+    "calendar": true,
+    "target": "change",
+    "scaler_type": "robust",
+    "hidden_size": 128,
+    "dropout": 0.1,
+    "learning_rate": 0.0008348936716031651,
+    "lookback_hours": 24
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.6173088719612643,
+    0.6229990080552653
+   ],
+   "val_crps_mean": 0.6201539400082647,
+   "fit_seconds": 306.18069195747375
+  },
+  {
+   "trial": 13,
+   "override": {
+    "exogenous": true,
+    "calendar": true,
+    "target": "change",
+    "scaler_type": "standard",
+    "hidden_size": 64,
+    "dropout": 0.1,
+    "learning_rate": 0.0004587641273895406,
+    "lookback_hours": 24
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.6375452635746329,
+    0.6387985315879153
+   ],
+   "val_crps_mean": 0.6381718975812741,
+   "fit_seconds": 146.3484216928482
+  },
+  {
+   "trial": 14,
+   "override": {
+    "exogenous": true,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "standard",
+    "hidden_size": 64,
+    "dropout": 0.0,
+    "learning_rate": 0.0013939717771484824,
+    "lookback_hours": 24
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.6610242622982261,
+    0.6607494573582648
+   ],
+   "val_crps_mean": 0.6608868598282455,
+   "fit_seconds": 157.12802815437317
+  },
+  {
+   "trial": 15,
+   "override": {
+    "exogenous": false,
+    "calendar": true,
+    "target": "change",
+    "scaler_type": "robust",
+    "hidden_size": 64,
+    "dropout": 0.1,
+    "learning_rate": 0.00015031634506665423,
+    "lookback_hours": 24
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.6219538075265637,
+    0.6291379081184835
+   ],
+   "val_crps_mean": 0.6255458578225236,
+   "fit_seconds": 187.69691848754883
+  },
+  {
+   "trial": 16,
+   "override": {
+    "exogenous": true,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "standard",
+    "hidden_size": 128,
+    "dropout": 0.1,
+    "learning_rate": 0.000684493721570616,
+    "lookback_hours": 168
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.7431328312661657,
+    0.71494296826209
+   ],
+   "val_crps_mean": 0.7290378997641278,
+   "fit_seconds": 1574.604229927063
+  },
+  {
+   "trial": 17,
+   "override": {
+    "exogenous": false,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "robust",
+    "hidden_size": 32,
+    "dropout": 0.2,
+    "learning_rate": 0.0012936709016828601,
+    "lookback_hours": 24
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.7127012321269149,
+    0.7418957315708445
+   ],
+   "val_crps_mean": 0.7272984818488797,
+   "fit_seconds": 248.08908092975616
+  },
+  {
+   "trial": 18,
+   "override": {
+    "exogenous": false,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "robust",
+    "hidden_size": 128,
+    "dropout": 0.2,
+    "learning_rate": 0.00010154982163118185,
+    "lookback_hours": 24
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.8275371768439796,
+    0.7966031018780859
+   ],
+   "val_crps_mean": 0.8120701393610328,
+   "fit_seconds": 532.0581369400024
+  },
+  {
+   "trial": 19,
+   "override": {
+    "exogenous": true,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "standard",
+    "hidden_size": 64,
+    "dropout": 0.0,
+    "learning_rate": 0.00038116863254270976,
+    "lookback_hours": 72
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.6943422580616327,
+    0.7444410690084615
+   ],
+   "val_crps_mean": 0.7193916635350471,
+   "fit_seconds": 395.44854176044464
+  }
+ ]
+}
