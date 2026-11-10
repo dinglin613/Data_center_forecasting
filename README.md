@@ -1,7 +1,6 @@
 # DCGridBench
 
-Benchmark and reference code for **grid-oriented probabilistic load forecasting of AI data centers**,
-accompanying the paper *Grid-Oriented Probabilistic Load Forecasting for AI Data Centers*.
+Benchmark and reference code for **grid-oriented probabilistic load forecasting of AI data centers**.
 
 The benchmark builds a cluster-level GPU power series from public telemetry of the MIT Supercloud
 TX-Gaia cluster (448 NVIDIA V100 GPUs, Feb.–Oct. 2021) and evaluates forecasts through four stages:
