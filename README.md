@@ -2,6 +2,8 @@
 
 Benchmark and reference code for **grid-oriented probabilistic load forecasting of AI data centers**.
 
+**Leaderboard:** https://dinglin613.github.io/Data_center_forecasting/
+
 The benchmark builds a cluster-level GPU power series from public telemetry of the MIT Supercloud
 TX-Gaia cluster (448 NVIDIA V100 GPUs, Feb.–Oct. 2021) and evaluates forecasts through four stages:
 
