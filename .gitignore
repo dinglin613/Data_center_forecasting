@@ -13,14 +13,8 @@ __pycache__/
 # local tooling
 .claude/
 
-# LaTeX build files (references.bib is generated from main.tex)
-paper/*.aux
-paper/*.bbl
-paper/*.blg
-paper/*.log
-paper/*.out
-paper/*.fls
-paper/*.fdb_latexmk
-paper/*.synctex.gz
-paper/references.bib
-paper/main.pdf
+
+# paper sources are kept out of the public repository
+/paper/
+/paper_submission/
+/paper_submission.zip
