@@ -37,6 +37,9 @@ q = {
     "minutes_zero_alloc": int((s.gpus_alloc == 0).sum()),
     "max_5min_ramp_kw": float(s.power_w.resample("5min").mean().diff().abs().max() / 1e3),
 }
+# share of 5-min power-change variance explained by changes in allocated GPUs
+d5 = s[["power_w", "gpus_alloc"]].resample("5min").mean().diff().dropna()
+q["r2_dpower_on_dalloc_5min"] = float(d5.power_w.corr(d5.gpus_alloc) ** 2)
 Path("results/eda").mkdir(parents=True, exist_ok=True)
 json.dump(q, open("results/eda/mit_quality.json", "w"), indent=2)
 print(json.dumps(q, indent=2))

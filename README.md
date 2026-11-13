@@ -5,10 +5,10 @@ Benchmark and reference code for **grid-oriented probabilistic load forecasting 
 The benchmark builds a cluster-level GPU power series from public telemetry of the MIT Supercloud
 TX-Gaia cluster (448 NVIDIA V100 GPUs, Feb.–Oct. 2021) and evaluates forecasts through four stages:
 
-1. **Probabilistic forecasting**: persistence, seasonal naive, quantile LightGBM, quantile TCN
-2. **Uncertainty calibration**: causal online conformal correction, optionally regime-conditioned
-3. **Temporal-dependence recovery**: independent sampling, Gaussian copula, residual bootstrap, Schaake shuffle
-4. **Reserve decision**: newsvendor reserve, per step and held over the horizon
+1. **Probabilistic prediction**: persistence, seasonal naive, quantile LightGBM, quantile TCN
+2. **Online uncertainty calibration**: causal online conformal correction, optionally regime-conditioned
+3. **Temporal scenario generation**: independent sampling, Gaussian copula, residual bootstrap, Schaake shuffle
+4. **Horizon-wide reserve sizing**: newsvendor reserve, per step and held over the horizon
 
 Each stage has its own metrics (CRPS and coverage; energy and variogram scores and KS distances of
 peak/ramp statistics; realised reserve cost and shortfall rate), so new components can be
@@ -64,10 +64,6 @@ python scripts/mit_build_series.py --agg $SCRATCH/dcgridbench/mit_gpu_1min
 # 4. forecasting, calibration, scenarios and reserve
 sbatch -A <account> scripts/slurm/cpu_pipeline.sbatch     # persistence, LightGBM
 sbatch -A <account> scripts/slurm/tcn_calibration.sbatch  # quantile TCN, 3 seeds (GPU)
-
-# 5. paper figures and tables
-python paper/make_figures.py
-python paper/make_tables.py      # writes the table bodies into paper/main.tex
 ```
 
 Notes:
@@ -87,7 +83,6 @@ dcgridbench/
   decisions/    reserve sizing and realised cost
 scripts/        command-line entry points and Slurm jobs
 tests/          unit tests
-paper/          LaTeX source, figure and table scripts
 ```
 
 ## Adding a method
