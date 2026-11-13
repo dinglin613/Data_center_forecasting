@@ -1,0 +1,13 @@
+display_name: TimesFM 2.5
+family: foundation
+adapter: timesfm
+deterministic: true
+reference: "Das et al., A decoder-only foundation model for time-series forecasting, ICML 2024 (TimesFM 2.5, 200M)."
+notes: "zero-shot; tails beyond 0.1/0.9 extended (gaussian rule); context length chosen on val"
+params:
+  checkpoint: google/timesfm-2.5-200m-pytorch
+  context_steps: 2048
+  batch_size: 128
+  tail: gaussian
+search:
+  grid: {context_steps: [512, 1024, 2048, 4096]}

@@ -15,6 +15,8 @@ dependencies = [
 
 [project.optional-dependencies]
 deep = ["torch"]
+# External SOTA models; versions match scripts/slurm/build_env.sbatch (torch 2.6).
+external = ["torch", "neuralforecast==3.1.9", "chronos-forecasting==2.3.2", "gluonts==0.16.2", "pyyaml"]
 dev = ["pytest"]
 
 [tool.setuptools.packages.find]

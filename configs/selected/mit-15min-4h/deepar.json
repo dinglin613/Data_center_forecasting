@@ -1,0 +1,459 @@
+{
+ "override": {
+  "calendar": true,
+  "target": "change",
+  "scaling": true,
+  "hidden_size": 20,
+  "dropout_rate": 0.2,
+  "lr": 0.0014861053717305198,
+  "context_hours": 24
+ },
+ "trial": 2,
+ "val_crps_mean": 0.62404136757878,
+ "val_crps_std": 0.0016996945392375729,
+ "n_seeds": 2,
+ "n_trials": 20,
+ "n_complete": 20,
+ "trials": [
+  {
+   "trial": 0,
+   "override": {
+    "calendar": true,
+    "target": "level",
+    "scaling": false,
+    "hidden_size": 20,
+    "dropout_rate": 0.1,
+    "lr": 0.001626584764266949,
+    "context_hours": 24
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.5000867114726746,
+    1.5856477411203542
+   ],
+   "val_crps_mean": 1.5428672262965144,
+   "fit_seconds": 233.19526278972626
+  },
+  {
+   "trial": 1,
+   "override": {
+    "calendar": true,
+    "target": "level",
+    "scaling": false,
+    "hidden_size": 80,
+    "dropout_rate": 0.1,
+    "lr": 0.00011463314526793308,
+    "context_hours": 72
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    8.0110475787151,
+    8.224586371676066
+   ],
+   "val_crps_mean": 8.117816975195584,
+   "fit_seconds": 293.98138546943665
+  },
+  {
+   "trial": 2,
+   "override": {
+    "calendar": true,
+    "target": "change",
+    "scaling": true,
+    "hidden_size": 20,
+    "dropout_rate": 0.2,
+    "lr": 0.0014861053717305198,
+    "context_hours": 24
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.6257410621180176,
+    0.6223416730395425
+   ],
+   "val_crps_mean": 0.62404136757878,
+   "fit_seconds": 72.29936146736145
+  },
+  {
+   "trial": 3,
+   "override": {
+    "calendar": true,
+    "target": "level",
+    "scaling": true,
+    "hidden_size": 40,
+    "dropout_rate": 0.0,
+    "lr": 0.0004936355375156941,
+    "context_hours": 72
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.6641810587738572,
+    0.778253586773018
+   ],
+   "val_crps_mean": 1.2212173227734375,
+   "fit_seconds": 237.28839349746704
+  },
+  {
+   "trial": 4,
+   "override": {
+    "calendar": true,
+    "target": "change",
+    "scaling": false,
+    "hidden_size": 80,
+    "dropout_rate": 0.2,
+    "lr": 0.0013049333243043573,
+    "context_hours": 72
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.6519041438105903,
+    0.6641567895380777
+   ],
+   "val_crps_mean": 0.658030466674334,
+   "fit_seconds": 67.3121063709259
+  },
+  {
+   "trial": 5,
+   "override": {
+    "calendar": true,
+    "target": "level",
+    "scaling": true,
+    "hidden_size": 20,
+    "dropout_rate": 0.1,
+    "lr": 0.0007280257904156456,
+    "context_hours": 24
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.8682558874283478,
+    0.8235191917164231
+   ],
+   "val_crps_mean": 0.8458875395723855,
+   "fit_seconds": 290.0325834751129
+  },
+  {
+   "trial": 6,
+   "override": {
+    "calendar": true,
+    "target": "level",
+    "scaling": false,
+    "hidden_size": 20,
+    "dropout_rate": 0.1,
+    "lr": 0.0001551965346642212,
+    "context_hours": 24
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    18.919365056025548,
+    19.153108463734217
+   ],
+   "val_crps_mean": 19.036236759879884,
+   "fit_seconds": 295.01133120059967
+  },
+  {
+   "trial": 7,
+   "override": {
+    "calendar": true,
+    "target": "level",
+    "scaling": false,
+    "hidden_size": 40,
+    "dropout_rate": 0.2,
+    "lr": 0.0016530303672217695,
+    "context_hours": 72
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.0475142812493339,
+    4.429871087614049
+   ],
+   "val_crps_mean": 2.7386926844316912,
+   "fit_seconds": 184.60194146633148
+  },
+  {
+   "trial": 8,
+   "override": {
+    "calendar": true,
+    "target": "change",
+    "scaling": true,
+    "hidden_size": 80,
+    "dropout_rate": 0.1,
+    "lr": 0.00023692461090646537,
+    "context_hours": 72
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.6337962479874465,
+    0.6339098049138545
+   ],
+   "val_crps_mean": 0.6338530264506506,
+   "fit_seconds": 74.96555244922638
+  },
+  {
+   "trial": 9,
+   "override": {
+    "calendar": true,
+    "target": "change",
+    "scaling": true,
+    "hidden_size": 20,
+    "dropout_rate": 0.2,
+    "lr": 0.002239227810839213,
+    "context_hours": 168
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.6492007648587461,
+    0.6407875222963234
+   ],
+   "val_crps_mean": 0.6449941435775348,
+   "fit_seconds": 70.8440682888031
+  },
+  {
+   "trial": 10,
+   "override": {
+    "calendar": true,
+    "target": "level",
+    "scaling": true,
+    "hidden_size": 80,
+    "dropout_rate": 0.1,
+    "lr": 0.0010605090003933894,
+    "context_hours": 168
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.8153191601541503,
+    0.863046848036695
+   ],
+   "val_crps_mean": 0.8391830040954227,
+   "fit_seconds": 445.8667857646942
+  },
+  {
+   "trial": 11,
+   "override": {
+    "calendar": true,
+    "target": "change",
+    "scaling": true,
+    "hidden_size": 20,
+    "dropout_rate": 0.0,
+    "lr": 0.001602933731743675,
+    "context_hours": 72
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.6305018141514542,
+    0.6283104399103088
+   ],
+   "val_crps_mean": 0.6294061270308815,
+   "fit_seconds": 64.7933634519577
+  },
+  {
+   "trial": 12,
+   "override": {
+    "calendar": true,
+    "target": "change",
+    "scaling": false,
+    "hidden_size": 80,
+    "dropout_rate": 0.1,
+    "lr": 0.0008348936716031651,
+    "context_hours": 24
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.6455284039677616,
+    0.6492099493877157
+   ],
+   "val_crps_mean": 0.6473691766777386,
+   "fit_seconds": 87.93496990203857
+  },
+  {
+   "trial": 13,
+   "override": {
+    "calendar": true,
+    "target": "change",
+    "scaling": true,
+    "hidden_size": 40,
+    "dropout_rate": 0.1,
+    "lr": 0.0004587641273895406,
+    "context_hours": 24
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.6300628960025736,
+    0.6281895845081177
+   ],
+   "val_crps_mean": 0.6291262402553457,
+   "fit_seconds": 85.9992458820343
+  },
+  {
+   "trial": 14,
+   "override": {
+    "calendar": true,
+    "target": "level",
+    "scaling": true,
+    "hidden_size": 40,
+    "dropout_rate": 0.0,
+    "lr": 0.0013939717771484824,
+    "context_hours": 24
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.2340212810883677,
+    1.14231775039824
+   ],
+   "val_crps_mean": 1.1881695157433039,
+   "fit_seconds": 131.52419686317444
+  },
+  {
+   "trial": 15,
+   "override": {
+    "calendar": true,
+    "target": "change",
+    "scaling": false,
+    "hidden_size": 40,
+    "dropout_rate": 0.1,
+    "lr": 0.00015031634506665423,
+    "context_hours": 24
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.6523032657466938,
+    0.6808243945176415
+   ],
+   "val_crps_mean": 0.6665638301321677,
+   "fit_seconds": 60.65432643890381
+  },
+  {
+   "trial": 16,
+   "override": {
+    "calendar": true,
+    "target": "level",
+    "scaling": true,
+    "hidden_size": 80,
+    "dropout_rate": 0.1,
+    "lr": 0.000684493721570616,
+    "context_hours": 168
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.7137880043779778,
+    0.899838698569151
+   ],
+   "val_crps_mean": 0.8068133514735645,
+   "fit_seconds": 246.5140882730484
+  },
+  {
+   "trial": 17,
+   "override": {
+    "calendar": true,
+    "target": "level",
+    "scaling": false,
+    "hidden_size": 20,
+    "dropout_rate": 0.2,
+    "lr": 0.0012936709016828601,
+    "context_hours": 24
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.7976480146041212,
+    1.4087421687227313
+   ],
+   "val_crps_mean": 1.603195091663426,
+   "fit_seconds": 279.2431881427765
+  },
+  {
+   "trial": 18,
+   "override": {
+    "calendar": true,
+    "target": "level",
+    "scaling": false,
+    "hidden_size": 80,
+    "dropout_rate": 0.2,
+    "lr": 0.00010154982163118185,
+    "context_hours": 24
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    8.998344567410488,
+    8.700023542218544
+   ],
+   "val_crps_mean": 8.849184054814515,
+   "fit_seconds": 343.2191253900528
+  },
+  {
+   "trial": 19,
+   "override": {
+    "calendar": true,
+    "target": "level",
+    "scaling": true,
+    "hidden_size": 40,
+    "dropout_rate": 0.0,
+    "lr": 0.00038116863254270976,
+    "context_hours": 72
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    0.740546832752063,
+    0.8182107210662553
+   ],
+   "val_crps_mean": 0.7793787769091591,
+   "fit_seconds": 260.5917820930481
+  }
+ ]
+}

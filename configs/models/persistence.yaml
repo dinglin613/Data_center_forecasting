@@ -1,0 +1,7 @@
+display_name: Persistence
+family: baseline
+adapter: builtin
+deterministic: true
+notes: "empirical train-residual quantiles"
+reference: "Last value plus empirical train-residual quantiles per horizon."
+params: {cls: persistence}

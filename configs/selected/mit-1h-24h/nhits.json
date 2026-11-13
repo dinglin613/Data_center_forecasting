@@ -1,0 +1,753 @@
+{
+ "override": {
+  "exogenous": false,
+  "calendar": true,
+  "target": "change",
+  "scaler_type": "robust",
+  "mlp_units": [
+   [
+    512,
+    512
+   ],
+   [
+    512,
+    512
+   ],
+   [
+    512,
+    512
+   ]
+  ],
+  "dropout_prob_theta": 0.2,
+  "learning_rate": 0.00024913819578269576,
+  "lookback_hours": 48
+ },
+ "trial": 15,
+ "val_crps_mean": 1.5134900822363622,
+ "val_crps_std": 0.015320969915538107,
+ "n_seeds": 2,
+ "n_trials": 20,
+ "n_complete": 20,
+ "trials": [
+  {
+   "trial": 0,
+   "override": {
+    "exogenous": true,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "standard",
+    "mlp_units": [
+     [
+      128,
+      128
+     ],
+     [
+      128,
+      128
+     ],
+     [
+      128,
+      128
+     ]
+    ],
+    "dropout_prob_theta": 0.0,
+    "learning_rate": 0.0006010033604524216,
+    "lookback_hours": 168
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.6009009450394311,
+    1.6421743560695197
+   ],
+   "val_crps_mean": 1.6215376505544754,
+   "fit_seconds": 29.672194480895996
+  },
+  {
+   "trial": 1,
+   "override": {
+    "exogenous": false,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "robust",
+    "mlp_units": [
+     [
+      256,
+      256
+     ],
+     [
+      256,
+      256
+     ],
+     [
+      256,
+      256
+     ]
+    ],
+    "dropout_prob_theta": 0.0,
+    "learning_rate": 0.0024531127602264013,
+    "lookback_hours": 168
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.7724078908542482,
+    1.6990616454947456
+   ],
+   "val_crps_mean": 1.7357347681744968,
+   "fit_seconds": 36.51160645484924
+  },
+  {
+   "trial": 2,
+   "override": {
+    "exogenous": true,
+    "calendar": true,
+    "target": "change",
+    "scaler_type": "standard",
+    "mlp_units": [
+     [
+      256,
+      256
+     ],
+     [
+      256,
+      256
+     ],
+     [
+      256,
+      256
+     ]
+    ],
+    "dropout_prob_theta": 0.0,
+    "learning_rate": 0.000855508398951721,
+    "lookback_hours": 48
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.553543607702742,
+    1.6161294956736798
+   ],
+   "val_crps_mean": 1.5848365516882108,
+   "fit_seconds": 52.964377880096436
+  },
+  {
+   "trial": 3,
+   "override": {
+    "exogenous": true,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "robust",
+    "mlp_units": [
+     [
+      512,
+      512
+     ],
+     [
+      512,
+      512
+     ],
+     [
+      512,
+      512
+     ]
+    ],
+    "dropout_prob_theta": 0.0,
+    "learning_rate": 0.0003370301100817574,
+    "lookback_hours": 168
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.5962883328977133,
+    1.63211182904844
+   ],
+   "val_crps_mean": 1.6142000809730765,
+   "fit_seconds": 34.00700104236603
+  },
+  {
+   "trial": 4,
+   "override": {
+    "exogenous": false,
+    "calendar": true,
+    "target": "change",
+    "scaler_type": "standard",
+    "mlp_units": [
+     [
+      128,
+      128
+     ],
+     [
+      128,
+      128
+     ],
+     [
+      128,
+      128
+     ]
+    ],
+    "dropout_prob_theta": 0.0,
+    "learning_rate": 0.0026039284887918695,
+    "lookback_hours": 48
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.6032448312278722,
+    1.5054785328401576
+   ],
+   "val_crps_mean": 1.554361682034015,
+   "fit_seconds": 35.21744692325592
+  },
+  {
+   "trial": 5,
+   "override": {
+    "exogenous": true,
+    "calendar": true,
+    "target": "change",
+    "scaler_type": "robust",
+    "mlp_units": [
+     [
+      512,
+      512
+     ],
+     [
+      512,
+      512
+     ],
+     [
+      512,
+      512
+     ]
+    ],
+    "dropout_prob_theta": 0.2,
+    "learning_rate": 0.00282075367204697,
+    "lookback_hours": 336
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.7612474133456737,
+    1.785947520781664
+   ],
+   "val_crps_mean": 1.7735974670636687,
+   "fit_seconds": 60.73938286304474
+  },
+  {
+   "trial": 6,
+   "override": {
+    "exogenous": true,
+    "calendar": true,
+    "target": "change",
+    "scaler_type": "robust",
+    "mlp_units": [
+     [
+      512,
+      512
+     ],
+     [
+      512,
+      512
+     ],
+     [
+      512,
+      512
+     ]
+    ],
+    "dropout_prob_theta": 0.1,
+    "learning_rate": 0.00013441348268135002,
+    "lookback_hours": 48
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.6441709609631852,
+    1.6561698064679096
+   ],
+   "val_crps_mean": 1.6501703837155475,
+   "fit_seconds": 55.10325002670288
+  },
+  {
+   "trial": 7,
+   "override": {
+    "exogenous": true,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "robust",
+    "mlp_units": [
+     [
+      512,
+      512
+     ],
+     [
+      512,
+      512
+     ],
+     [
+      512,
+      512
+     ]
+    ],
+    "dropout_prob_theta": 0.0,
+    "learning_rate": 0.0029651189370338967,
+    "lookback_hours": 168
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.7262777939537162,
+    1.5744694277145492
+   ],
+   "val_crps_mean": 1.6503736108341327,
+   "fit_seconds": 50.30487811565399
+  },
+  {
+   "trial": 8,
+   "override": {
+    "exogenous": true,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "robust",
+    "mlp_units": [
+     [
+      512,
+      512
+     ],
+     [
+      512,
+      512
+     ],
+     [
+      512,
+      512
+     ]
+    ],
+    "dropout_prob_theta": 0.1,
+    "learning_rate": 0.0014300648961352305,
+    "lookback_hours": 336
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.9651027288834844,
+    2.0655397502931336
+   ],
+   "val_crps_mean": 2.015321239588309,
+   "fit_seconds": 25.711192846298218
+  },
+  {
+   "trial": 9,
+   "override": {
+    "exogenous": true,
+    "calendar": true,
+    "target": "change",
+    "scaler_type": "standard",
+    "mlp_units": [
+     [
+      512,
+      512
+     ],
+     [
+      512,
+      512
+     ],
+     [
+      512,
+      512
+     ]
+    ],
+    "dropout_prob_theta": 0.1,
+    "learning_rate": 0.0004172704725142837,
+    "lookback_hours": 168
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.5971616180226111,
+    1.5690391981736251
+   ],
+   "val_crps_mean": 1.5831004080981181,
+   "fit_seconds": 20.327319622039795
+  },
+  {
+   "trial": 10,
+   "override": {
+    "exogenous": false,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "robust",
+    "mlp_units": [
+     [
+      256,
+      256
+     ],
+     [
+      256,
+      256
+     ],
+     [
+      256,
+      256
+     ]
+    ],
+    "dropout_prob_theta": 0.1,
+    "learning_rate": 0.0001323149850297035,
+    "lookback_hours": 48
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.5751745782543443,
+    1.556562687045504
+   ],
+   "val_crps_mean": 1.565868632649924,
+   "fit_seconds": 56.34555900096893
+  },
+  {
+   "trial": 11,
+   "override": {
+    "exogenous": true,
+    "calendar": true,
+    "target": "change",
+    "scaler_type": "robust",
+    "mlp_units": [
+     [
+      128,
+      128
+     ],
+     [
+      128,
+      128
+     ],
+     [
+      128,
+      128
+     ]
+    ],
+    "dropout_prob_theta": 0.2,
+    "learning_rate": 0.000464007641152908,
+    "lookback_hours": 336
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.7239336863455674,
+    1.6995623652163792
+   ],
+   "val_crps_mean": 1.7117480257809734,
+   "fit_seconds": 33.01901173591614
+  },
+  {
+   "trial": 12,
+   "override": {
+    "exogenous": false,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "robust",
+    "mlp_units": [
+     [
+      256,
+      256
+     ],
+     [
+      256,
+      256
+     ],
+     [
+      256,
+      256
+     ]
+    ],
+    "dropout_prob_theta": 0.1,
+    "learning_rate": 0.0024422360537967704,
+    "lookback_hours": 168
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.717885272283828,
+    1.7939614367699512
+   ],
+   "val_crps_mean": 1.7559233545268897,
+   "fit_seconds": 36.38363742828369
+  },
+  {
+   "trial": 13,
+   "override": {
+    "exogenous": false,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "robust",
+    "mlp_units": [
+     [
+      128,
+      128
+     ],
+     [
+      128,
+      128
+     ],
+     [
+      128,
+      128
+     ]
+    ],
+    "dropout_prob_theta": 0.1,
+    "learning_rate": 0.0010942554018914855,
+    "lookback_hours": 168
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.7028477244395614,
+    1.6520102217372161
+   ],
+   "val_crps_mean": 1.677428973088389,
+   "fit_seconds": 26.665884375572205
+  },
+  {
+   "trial": 14,
+   "override": {
+    "exogenous": true,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "robust",
+    "mlp_units": [
+     [
+      128,
+      128
+     ],
+     [
+      128,
+      128
+     ],
+     [
+      128,
+      128
+     ]
+    ],
+    "dropout_prob_theta": 0.0,
+    "learning_rate": 0.00012488178619835525,
+    "lookback_hours": 336
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.7502391344920236,
+    1.737204757536499
+   ],
+   "val_crps_mean": 1.7437219460142614,
+   "fit_seconds": 46.59592652320862
+  },
+  {
+   "trial": 15,
+   "override": {
+    "exogenous": false,
+    "calendar": true,
+    "target": "change",
+    "scaler_type": "robust",
+    "mlp_units": [
+     [
+      512,
+      512
+     ],
+     [
+      512,
+      512
+     ],
+     [
+      512,
+      512
+     ]
+    ],
+    "dropout_prob_theta": 0.2,
+    "learning_rate": 0.00024913819578269576,
+    "lookback_hours": 48
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.498169112320824,
+    1.5288110521519003
+   ],
+   "val_crps_mean": 1.5134900822363622,
+   "fit_seconds": 60.700053572654724
+  },
+  {
+   "trial": 16,
+   "override": {
+    "exogenous": true,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "robust",
+    "mlp_units": [
+     [
+      256,
+      256
+     ],
+     [
+      256,
+      256
+     ],
+     [
+      256,
+      256
+     ]
+    ],
+    "dropout_prob_theta": 0.2,
+    "learning_rate": 0.0011674813276874912,
+    "lookback_hours": 48
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.6656973508684554,
+    1.703960467239554
+   ],
+   "val_crps_mean": 1.6848289090540047,
+   "fit_seconds": 38.933135986328125
+  },
+  {
+   "trial": 17,
+   "override": {
+    "exogenous": false,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "standard",
+    "mlp_units": [
+     [
+      512,
+      512
+     ],
+     [
+      512,
+      512
+     ],
+     [
+      512,
+      512
+     ]
+    ],
+    "dropout_prob_theta": 0.1,
+    "learning_rate": 0.0001496102707149931,
+    "lookback_hours": 336
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.7262098076066152,
+    1.7193021688065677
+   ],
+   "val_crps_mean": 1.7227559882065915,
+   "fit_seconds": 36.49385142326355
+  },
+  {
+   "trial": 18,
+   "override": {
+    "exogenous": true,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "standard",
+    "mlp_units": [
+     [
+      256,
+      256
+     ],
+     [
+      256,
+      256
+     ],
+     [
+      256,
+      256
+     ]
+    ],
+    "dropout_prob_theta": 0.0,
+    "learning_rate": 0.0010410241344161908,
+    "lookback_hours": 168
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.6145090731382052,
+    1.5998051690113546
+   ],
+   "val_crps_mean": 1.60715712107478,
+   "fit_seconds": 41.31144845485687
+  },
+  {
+   "trial": 19,
+   "override": {
+    "exogenous": false,
+    "calendar": true,
+    "target": "level",
+    "scaler_type": "standard",
+    "mlp_units": [
+     [
+      128,
+      128
+     ],
+     [
+      128,
+      128
+     ],
+     [
+      128,
+      128
+     ]
+    ],
+    "dropout_prob_theta": 0.1,
+    "learning_rate": 0.0002574606955733363,
+    "lookback_hours": 168
+   },
+   "seeds": [
+    0,
+    1
+   ],
+   "val_crps": [
+    1.4984958083338857,
+    1.5463993266621
+   ],
+   "val_crps_mean": 1.5224475674979927,
+   "fit_seconds": 54.134639620780945
+  }
+ ]
+}
