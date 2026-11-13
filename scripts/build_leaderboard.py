@@ -114,6 +114,15 @@ Test period 2021-08-01 to 09-30, forecasts at every step. Values are mean &plusm
 Stage 3&ndash;4 headline: online regime-conditioned conformal quantiles with the Schaake shuffle; reserve cost with c<sub>S</sub>=1, c<sub>R</sub>=0.1.
 Coverage targets: 0.90; shortfall target: 0.10. Protocol: <code>docs/protocol.md</code>. Generated __GENERATED__.</p>
 <div class="tabs" id="tabs"></div><div id="body"></div>
+<h2>Citation</h2>
+<p>If you use DCGridBench, please cite the paper
+(<a href="https://arxiv.org/abs/2611.08929">arXiv:2611.08929</a>):</p>
+<pre style="background:var(--head);border:1px solid var(--line);border-radius:6px;padding:10px 12px;overflow-x:auto;font-size:12.5px">@article{yao2026grid,
+  title={Grid-Oriented Probabilistic Load Forecasting for AI Data Centers},
+  author={Yao, Qingyi and Lin, Ding and Zhao, Tianqiao and Yue, Meng and Wang, Jianhui},
+  journal={arXiv preprint arXiv:2611.08929},
+  year={2026}
+}</pre>
 <script>
 const DATA = __DATA__;
 const STAGES = {"1":"Stage 1: forecast accuracy","2":"Stage 2: calibration","3":"Stage 3: scenarios","4":"Stage 4: reserve decision"};

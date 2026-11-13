@@ -1,0 +1,39 @@
+cff-version: 1.2.0
+message: "If you use DCGridBench, please cite the paper below."
+title: "DCGridBench: grid-oriented probabilistic load forecasting benchmark for AI data centers"
+type: software
+license: MIT
+repository-code: "https://github.com/dinglin613/Data_center_forecasting"
+url: "https://dinglin613.github.io/Data_center_forecasting/"
+authors:
+  - family-names: Yao
+    given-names: Qingyi
+  - family-names: Lin
+    given-names: Ding
+  - family-names: Zhao
+    given-names: Tianqiao
+  - family-names: Yue
+    given-names: Meng
+  - family-names: Wang
+    given-names: Jianhui
+preferred-citation:
+  type: article
+  title: "Grid-Oriented Probabilistic Load Forecasting for AI Data Centers"
+  authors:
+    - family-names: Yao
+      given-names: Qingyi
+    - family-names: Lin
+      given-names: Ding
+    - family-names: Zhao
+      given-names: Tianqiao
+    - family-names: Yue
+      given-names: Meng
+    - family-names: Wang
+      given-names: Jianhui
+  journal: "arXiv preprint arXiv:2611.08929"
+  year: 2026
+  url: "https://arxiv.org/abs/2611.08929"
+  identifiers:
+    - type: other
+      value: "arXiv:2611.08929"
+      description: arXiv identifier
