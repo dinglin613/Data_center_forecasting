@@ -161,6 +161,19 @@ python scripts/build_leaderboard.py --results $SCRATCH/dcgridbench_results/bench
 Job lists are resumable: a job whose result JSON exists is skipped, so a failed chunk can be
 resubmitted as is. Use `PAR=1` for jobs that ran out of GPU memory when sharing a GPU.
 
+## Citation
+
+If you use DCGridBench, please cite the paper ([arXiv:2611.08929](https://arxiv.org/abs/2611.08929)):
+
+```bibtex
+@article{yao2026grid,
+  title={Grid-Oriented Probabilistic Load Forecasting for AI Data Centers},
+  author={Yao, Qingyi and Lin, Ding and Zhao, Tianqiao and Yue, Meng and Wang, Jianhui},
+  journal={arXiv preprint arXiv:2611.08929},
+  year={2026}
+}
+```
+
 ## License
 
 Code: MIT (see `LICENSE`). Data: see the MIT Supercloud dataset license (CC BY-NC-ND 4.0).
